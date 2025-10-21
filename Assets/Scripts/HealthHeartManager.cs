@@ -9,7 +9,7 @@ public class HealthHeartManager : MonoBehaviour
     public PlayerHealth playerHealth;
     List<Hearts> hearts = new List<Hearts>();
 
-    private void Start()
+    private void Update()
     {
         DrawHearts();
     }
