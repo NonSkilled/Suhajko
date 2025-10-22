@@ -109,5 +109,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f187adbbc25c46b4f82d45a612e08a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hearts
-  fullHeart: {fileID: 4432793351920879750, guid: 151e4aff6613f8a46814db1fe843e383, type: 3}
-  emptyHeart: {fileID: 8124259339964715380, guid: 151e4aff6613f8a46814db1fe843e383, type: 3}
+  fullHeart: {fileID: 3217775533030663568, guid: 88f9465d93896fe4fa39138d8dab6443, type: 3}
+  emptyHeart: {fileID: -1795006193006600325, guid: a5a03d462a5947647848ef2aeb2ef52f, type: 3}
