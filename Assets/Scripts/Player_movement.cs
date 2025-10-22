@@ -5,12 +5,20 @@ public class Player_movement : MonoBehaviour
     public CharacterController2D controller;
     public float runSpeed = 40f;
     float horizontalMove = 0f;
-    bool jump = false;
     private bool jumpQueued = false;
+    bool isSprinting = false;
+    float sprintSpeed = 80f;
 
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        if (isSprinting && controller.IsGrounded)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * sprintSpeed;
+        }
+        else
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        }
         bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetButtonDown("Jump2");
         if (jumpPressed)
         {
@@ -20,12 +28,21 @@ public class Player_movement : MonoBehaviour
                 jumpQueued = true;
             }
         }
+        bool sprintPressed = Input.GetKey(KeyCode.LeftShift);
+        if (sprintPressed)
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
         
 
     }
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jumpQueued);
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jumpQueued, isSprinting);
         jumpQueued = false;
     }
 }
