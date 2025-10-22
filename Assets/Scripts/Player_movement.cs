@@ -6,19 +6,26 @@ public class Player_movement : MonoBehaviour
     public float runSpeed = 40f;
     float horizontalMove = 0f;
     bool jump = false;
+    private bool jumpQueued = false;
 
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        if (Input.GetButtonDown("Jump"))
+        bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetButtonDown("Jump2");
+        if (jumpPressed)
         {
-            jump = true;
+
+            if (!jumpQueued)
+            {
+                jumpQueued = true;
+            }
         }
+        
 
     }
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jumpQueued);
+        jumpQueued = false;
     }
 }
