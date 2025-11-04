@@ -3,11 +3,12 @@ using UnityEngine;
 public class Player_movement : MonoBehaviour
 {
     public CharacterController2D controller;
+    public Animator animator;
     public float runSpeed = 40f;
     float horizontalMove = 0f;
     private bool jumpQueued = false;
     bool isSprinting = false;
-    float sprintSpeed = 80f;
+    public float sprintSpeed = 80f;
 
     void Update()
     {
@@ -19,8 +20,8 @@ public class Player_movement : MonoBehaviour
         {
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         }
-        bool jumpPressed = Input.GetButtonDown("Jump") || Input.GetButtonDown("Jump2");
-        if (jumpPressed)
+        animator.SetFloat ("Speed", Mathf.Abs(horizontalMove));
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && controller.IsGrounded)
         {
 
             if (!jumpQueued)
