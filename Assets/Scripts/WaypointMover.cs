@@ -1,5 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class WaypointMover : MonoBehaviour
@@ -14,6 +15,7 @@ public class WaypointMover : MonoBehaviour
     private Transform[] waypoints;
     private int currentWaypointIndex;
     private bool isWaiting;
+    private float direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,27 +24,46 @@ public class WaypointMover : MonoBehaviour
         {
             waypoints[i] = waypointParent.GetChild(i);
         }
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("speed", moveSpeed * Mathf.Sign(direction));
         if (PauseMenu.GameIsPaused == true || isWaiting)
         {
             return;
         }
+        
         MoveToWaypoint();
-
+    
     }
     void MoveToWaypoint()
     {
         Transform target = waypoints[currentWaypointIndex];
         transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         
+        direction = transform.position.x - target.position.x;
+        if (direction <= 0f)
+        {
+            transform.localScale = new Vector3(-3f, 3f, 1f);
+        }
+        else if (direction >= 0f)
+        {
+            transform.localScale = new Vector3(3f, 3f, 1f);
+        }
+        
+
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
             StartCoroutine(WaitAtWaypoint());
         }
+        
+        
     }
         
     IEnumerator WaitAtWaypoint()
