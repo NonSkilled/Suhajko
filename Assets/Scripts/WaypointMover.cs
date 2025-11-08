@@ -9,6 +9,7 @@ public class WaypointMover : MonoBehaviour
     public float moveSpeed = 1.5f;
     public float waitTime = 2f;
     public bool loopWaypoints = true;
+    public Animator animator;
 
     private Transform[] waypoints;
     private int currentWaypointIndex;
@@ -26,7 +27,10 @@ public class WaypointMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (PauseMenu.GameIsPaused == true || isWaiting)
+        {
+            return;
+        }
         MoveToWaypoint();
 
     }
@@ -34,6 +38,7 @@ public class WaypointMover : MonoBehaviour
     {
         Transform target = waypoints[currentWaypointIndex];
         transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
             StartCoroutine(WaitAtWaypoint());
