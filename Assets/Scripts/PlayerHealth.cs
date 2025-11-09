@@ -9,6 +9,8 @@ public class PlayerHealth : MonoBehaviour
     public float freezeTimer = 0.2f;
     public int amount = 10;
     public FreezeManager freezeBar;
+    public Player_movement playerMovement;
+    public PauseMenu pauseMenu;
 
 
 
@@ -33,6 +35,23 @@ public class PlayerHealth : MonoBehaviour
     {
         freezeBar.freeze += amount;
         freezeBar.SetFreeze(freezeBar.freeze);
+        if (freezeBar.freeze <= 50)
+        {
+            playerMovement.slow = 1f;
+        }
+        else if (freezeBar.freeze <= 75)
+        {
+            playerMovement.slow = 0.5f;
+        }
+        else if (freezeBar.freeze <= 99)
+        {
+            playerMovement.slow = 0.25f;
+        }
+        else
+        {
+            freezeBar.freeze = 0f;
+            pauseMenu.TakeDamage();
+        }
     }
     
 

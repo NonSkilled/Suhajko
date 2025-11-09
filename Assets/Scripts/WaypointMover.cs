@@ -1,6 +1,5 @@
 using System.Collections;
-using NUnit.Framework;
-using UnityEditor.Experimental.GraphView;
+//using System.Numerics;
 using UnityEngine;
 
 public class WaypointMover : MonoBehaviour
@@ -16,9 +15,11 @@ public class WaypointMover : MonoBehaviour
     private int currentWaypointIndex;
     private bool isWaiting;
     private float direction;
+    private UnityEngine.Vector3 previousPosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        previousPosition = transform.position;
         waypoints = new Transform[waypointParent.childCount];
         for (int i = 0; i < waypointParent.childCount; i++)
         {
@@ -33,7 +34,9 @@ public class WaypointMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat("speed", moveSpeed * Mathf.Sign(direction));
+        float speed = (transform.position - previousPosition).magnitude / Time.deltaTime;
+        animator.SetFloat("speed", speed);
+        previousPosition = transform.position;
         if (PauseMenu.GameIsPaused == true || isWaiting)
         {
             return;

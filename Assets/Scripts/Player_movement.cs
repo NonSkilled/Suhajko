@@ -9,16 +9,17 @@ public class Player_movement : MonoBehaviour
     private bool jumpQueued = false;
     bool isSprinting = false;
     public float sprintSpeed = 80f;
+    public float slow = 1f;
 
     void Update()
     {
         if (isSprinting && controller.IsGrounded)
         {
-            horizontalMove = Input.GetAxisRaw("Horizontal") * sprintSpeed;
+            horizontalMove = Input.GetAxisRaw("Horizontal") * sprintSpeed * slow;
         }
         else
         {
-            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed * slow;
         }
         animator.SetFloat ("Speed", Mathf.Abs(horizontalMove));
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && controller.IsGrounded)
