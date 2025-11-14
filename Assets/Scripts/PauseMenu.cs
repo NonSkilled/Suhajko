@@ -73,10 +73,6 @@ public class PauseMenu : MonoBehaviour
     }
     public void Respawn()
 {
-    if (PlayerHealth.health == 0)
-    {
-        return;
-    }
     afterlife = false;
     PlayerHealth.transform.position = spawnPosition;
     PlayerHealth.health = 3;
@@ -98,6 +94,7 @@ public class PauseMenu : MonoBehaviour
                 else if (PlayerHealth.health == 1)
                 {
                     Time.timeScale = 0f;
+                    PlayerHealth.health -= 1;
                     FinalDeathMenuUI.SetActive(true);
                     //SceneManager.LoadScene(1);
 
